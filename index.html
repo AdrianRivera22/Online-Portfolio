@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADRIAN_BENEDICT // MISSION_CONTROL</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #06b6d4;
+            --neon-blue: #3b82f6;
+        }
+        body {
+            background-color: #020617;
+            background-image: 
+                radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%),
+                linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            font-family: 'Fira Code', monospace;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .orbitron { font-family: 'Orbitron', sans-serif; }
+        
+        .hud-border {
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2), inset 0 0 15px rgba(6, 182, 212, 0.1);
+            position: relative;
+            background: rgba(15, 23, 42, 0.9);
+            clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
+        }
+
+        .scanline {
+            width: 100%; height: 2px; background: var(--neon-cyan); opacity: 0.2;
+            position: fixed; top: 0; left: 0; animation: scan 6s linear infinite;
+            box-shadow: 0 0 10px var(--neon-cyan); z-index: 100; pointer-events: none;
+        }
+
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+        .stat-bar { height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden; position: relative; }
+        .stat-fill { height: 100%; background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan)); box-shadow: 0 0 10px var(--neon-cyan); }
+
+        .glitch-text:hover {
+            text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9;
+            animation: glitch 0.3s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="scanline"></div>
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- HEADER -->
+        <header class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="orbitron text-3xl font-bold text-cyan-400 tracking-widest border-l-4 border-cyan-400 pl-4 uppercase">
+                Adrian Benedict <span class="text-sm block text-slate-500 font-light tracking-normal">lvl. 21 Full-Stack Dev</span>
+            </div>
+            <nav class="flex gap-2">
+                <a href="#about" class="hud-border px-4 py-2 text-[10px] uppercase orbitron hover:bg-cyan-500/20 transition">Bio_Data</a>
+                <a href="#projects" class="hud-border px-4 py-2 text-[10px] uppercase orbitron hover:bg-cyan-500/20 transition">Missions</a>
+                <a href="#reports" class="hud-border px-4 py-2 text-[10px] uppercase orbitron hover:bg-cyan-500/20 transition">Quest_Log</a>
+            </nav>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- LEFT PANEL: STATS -->
+            <aside class="lg:col-span-3 space-y-6">
+                <div id="about" class="hud-border p-4 text-center">
+                    <div class="relative w-40 h-40 mx-auto mb-4 border-2 border-cyan-400 p-1 group">
+                        <img src="profile.jpg" alt="Adrian" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                    </div>
+                    <h3 class="orbitron text-cyan-400 uppercase text-xs tracking-tighter">Status: Active_Intern</h3>
+                    <p class="text-[10px] text-slate-500 mt-2">WMSU BSCS 2A // DEPED PLANNING & RESEARCH</p>
+                </div>
+
+                <div class="hud-border p-4">
+                    <h4 class="orbitron text-[10px] text-slate-500 mb-4 uppercase">Skill_Attributes</h4>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-[9px] mb-1 uppercase"><span>SQL (MySQL/PostgreSQL)</span> <span>95%</span></div>
+                            <div class="stat-bar"><div class="stat-fill" style="width: 95%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-[9px] mb-1 uppercase"><span>PHP / Laravel</span> <span>88%</span></div>
+                            <div class="stat-bar"><div class="stat-fill" style="width: 88%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-[9px] mb-1 uppercase"><span>JavaScript / Alpine.js</span> <span>82%</span></div>
+                            <div class="stat-bar"><div class="stat-fill" style="width: 82%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- CENTER PANEL: MISSIONS -->
+            <section id="projects" class="lg:col-span-6 space-y-6">
+                <div class="hud-border p-6 min-h-[500px]">
+                    <h2 class="orbitron text-xl mb-6 flex items-center gap-2 text-white">
+                        <span class="w-2 h-2 bg-cyan-400 animate-pulse"></span> Active_Missions
+                    </h2>
+
+                    <div class="space-y-4">
+                        <!-- School Census -->
+                        <div class="bg-slate-800/40 border-l-2 border-cyan-500 p-5 hover:bg-cyan-500/10 transition">
+                            <h4 class="text-cyan-400 orbitron uppercase glitch-text">School Census System</h4>
+                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                                A high-fidelity data platform for DepEd Zamboanga City. Featuring GIS integration via Leaflet.js, institutional report generation, and multi-parameter audit filters[cite: 2, 3, 7].
+                            </p>
+                            <div class="mt-4 flex gap-4 text-[9px] font-bold orbitron">
+                                <span class="text-cyan-400 underline cursor-pointer">OPEN_CASE_STUDY</span>
+                                <span class="text-slate-500 uppercase">Tech: Laravel / MySQL / Alpine.js</span>
+                            </div>
+                        </div>
+
+                        <!-- Github Placeholder -->
+                        <div class="bg-slate-800/40 border-l-2 border-slate-500 p-5 hover:bg-slate-500/10 transition opacity-80">
+                            <h4 class="text-slate-300 orbitron uppercase">GitHub_Repo_Archive</h4>
+                            <p class="text-xs text-slate-500 mt-2">Access full source code for previous deployments, including machine learning experiments and mobile system skeletons.</p>
+                            <a href="https://github.com" target="_blank" class="mt-4 inline-block text-[9px] font-bold orbitron text-slate-400 hover:text-white underline">ACCESS_EXTERNAL_LINK</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT PANEL: QUEST LOG -->
+            <aside id="reports" class="lg:col-span-3 space-y-6">
+                <div class="hud-border p-4 h-full">
+                    <h4 class="orbitron text-[10px] text-slate-500 mb-6 uppercase">Quest_Log // DepEd_Internship</h4>
+                    <div class="space-y-6 relative ml-2">
+                        <div class="absolute left-0 top-0 bottom-0 w-[1px] bg-slate-800"></div>
+
+                        <!-- W1 -->
+                        <div class="relative pl-6">
+                            <div class="absolute left-[-4px] top-1 w-2 h-2 bg-cyan-400 rounded-full"></div>
+                            <div class="text-[9px] text-cyan-500 orbitron">W-01</div>
+                            <div class="text-[11px] font-bold uppercase leading-tight">System_Genesis</div>
+                            <a href="RIVERA, ADRIAN BENEDICT D. WEEK 1.pdf" target="_blank" class="text-[8px] text-slate-500 hover:text-cyan-400 underline">DOWNLOAD_LOG</a>
+                        </div>
+
+                        <!-- W2 -->
+                        <div class="relative pl-6">
+                            <div class="absolute left-[-4px] top-1 w-2 h-2 bg-cyan-400 rounded-full"></div>
+                            <div class="text-[9px] text-cyan-500 orbitron">W-02</div>
+                            <div class="text-[11px] font-bold uppercase leading-tight">GIS_Mapping</div>
+                            <a href="RIVERA, ADRIAN BENEDICT D. WEEK 2.pdf" target="_blank" class="text-[8px] text-slate-500 hover:text-cyan-400 underline">DOWNLOAD_LOG</a>
+                        </div>
+
+                        <!-- W3 -->
+                        <div class="relative pl-6">
+                            <div class="absolute left-[-4px] top-1 w-2 h-2 bg-cyan-400 rounded-full"></div>
+                            <div class="text-[9px] text-cyan-500 orbitron">W-03</div>
+                            <div class="text-[11px] font-bold uppercase leading-tight">Audit_Protocol</div>
+                            <a href="RIVERA, ADRIAN BENEDICT D. WEEK 3.pdf" target="_blank" class="text-[8px] text-slate-500 hover:text-cyan-400 underline">DOWNLOAD_LOG</a>
+                        </div>
+
+                        <!-- W4 -->
+                        <div class="relative pl-6">
+                            <div class="absolute left-[-4px] top-1 w-2 h-2 bg-cyan-400 rounded-full"></div>
+                            <div class="text-[9px] text-cyan-500 orbitron">W-04</div>
+                            <div class="text-[11px] font-bold uppercase leading-tight">Registry_Hardening</div>
+                            <a href="RIVERA, ADRIAN BENEDICT D. WEEK 4.pdf" target="_blank" class="text-[8px] text-slate-500 hover:text-cyan-400 underline">DOWNLOAD_LOG</a>
+                        </div>
+
+                        <!-- W5 -->
+                        <div class="relative pl-6">
+                            <div class="absolute left-[-4px] top-1 w-2 h-2 bg-cyan-400 rounded-full"></div>
+                            <div class="text-[9px] text-cyan-500 orbitron">W-05</div>
+                            <div class="text-[11px] font-bold uppercase leading-tight">UI_Pivot</div>
+                            <a href="RIVERA, ADRIAN BENEDICT D. WEEK 5.pdf" target="_blank" class="text-[8px] text-slate-500 hover:text-cyan-400 underline">DOWNLOAD_LOG</a>
+                        </div>
+
+                        <!-- W6 -->
+                        <div class="relative pl-6">
+                            <div class="absolute left-[-4px] top-1 w-2 h-2 bg-cyan-400 rounded-full"></div>
+                            <div class="text-[9px] text-cyan-500 orbitron">W-06</div>
+                            <div class="text-[11px] font-bold uppercase leading-tight">Infrastructure_Audit</div>
+                            <a href="RIVERA, ADRIAN BENEDICT D. WEEK 6.pdf" target="_blank" class="text-[8px] text-slate-500 hover:text-cyan-400 underline">DOWNLOAD_LOG</a>
+                        </div>
+
+                        <!-- W7 -->
+                        <div class="relative pl-6">
+                            <div class="absolute left-[-4px] top-1 w-2 h-2 bg-cyan-400 rounded-full"></div>
+                            <div class="text-[9px] text-cyan-500 orbitron">W-07</div>
+                            <div class="text-[11px] font-bold uppercase leading-tight">Report_Automation</div>
+                            <a href="RIVERA, ADRIAN BENEDICT D. WEEK 7.pdf" target="_blank" class="text-[8px] text-slate-500 hover:text-cyan-400 underline">DOWNLOAD_LOG</a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="hud-border p-4 flex justify-between items-center text-[9px] text-slate-500 font-fira uppercase tracking-widest">
+            <div>&copy; Adrian Benedict D. Rivera // 2026</div>
+            <div class="flex gap-4">
+                <span>COORD: 6.9214 N, 122.0790 E</span>
+                <span class="text-cyan-400">System_Status: Optimal</span>
+            </div>
+        </footer>
+    </div>
+
+</body>
+</html>
