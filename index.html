@@ -7,54 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
-/* Startup Overlay Styles */
-#startup-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    background-color: #020617;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.8s ease, visibility 0.8s;
-}
-
-.start-btn {
-    padding: 1rem 3rem;
-    font-family: 'Orbitron', sans-serif;
-    color: var(--neon-cyan);
-    background: transparent;
-    border: 2px solid var(--neon-cyan);
-    text-transform: uppercase;
-    letter-spacing: 0.5rem;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s;
-    box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
-}
-
-.start-btn:hover {
-    background: var(--neon-cyan);
-    color: #020617;
-    box-shadow: 0 0 30px var(--neon-cyan);
-}
-
-.loading-text {
-    font-size: 0.75rem;
-    color: #475569;
-    margin-top: 1.5rem;
-    font-family: 'Fira Code', monospace;
-}
-
-/* Hide main content initially */
-#main-interface {
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-
         :root { --neon-cyan: #06b6d4; --neon-blue: #3b82f6; }
+        
         body {
             background-color: #020617;
             background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%), 
@@ -63,143 +17,154 @@
             background-size: 100% 100%, 30px 30px, 30px 30px;
             font-family: 'Fira Code', monospace; color: #e2e8f0; overflow-x: hidden; scroll-behavior: smooth;
         }
+
         .orbitron { font-family: 'Orbitron', sans-serif; }
+
+        /* Startup Overlay Styles */
+        #startup-overlay {
+            position: fixed; inset: 0; z-index: 999; background-color: #020617;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .start-btn {
+            padding: 1rem 3rem; font-family: 'Orbitron', sans-serif; color: var(--neon-cyan);
+            background: transparent; border: 2px solid var(--neon-cyan); text-transform: uppercase;
+            letter-spacing: 0.5rem; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+        }
+
+        .start-btn:hover {
+            background: var(--neon-cyan); color: #020617; box-shadow: 0 0 30px var(--neon-cyan);
+        }
+
+        /* Main Content hidden initially */
+        #main-interface { opacity: 0; transition: opacity 1s ease; }
+
         .hud-border {
             border: 1px solid var(--neon-cyan);
             box-shadow: 0 0 15px rgba(6, 182, 212, 0.2), inset 0 0 15px rgba(6, 182, 212, 0.1);
             position: relative; background: rgba(15, 23, 42, 0.9);
             clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
         }
+
         .scanline {
             width: 100%; height: 2px; background: var(--neon-cyan); opacity: 0.2;
             position: fixed; top: 0; left: 0; animation: scan 6s linear infinite;
-            box-shadow: 0 0 10px var(--neon-cyan); z-index: 100; pointer-events: none;
+            z-index: 100; pointer-events: none;
         }
+
         @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
         .stat-bar { height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden; position: relative; }
         .stat-fill { height: 100%; background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan)); box-shadow: 0 0 10px var(--neon-cyan); }
     </style>
 </head>
-
 <body class="p-4 md:p-8">
-    <!-- STARTUP OVERLAY -->
-<div id="startup-overlay">
-    <div class="code-font text-cyan-500 mb-8 animate-pulse text-sm">
-        [ SYSTEM STATUS: ENCRYPTED ]
+
+    <div id="startup-overlay">
+        <div class="orbitron text-cyan-500 mb-8 animate-pulse text-sm tracking-widest">
+            [ SYSTEM STATUS: ENCRYPTED ]
+        </div>
+        <button class="start-btn" onclick="initiateSystem()">Start Game</button>
+        <div class="text-[10px] text-slate-500 mt-6 animate-pulse">
+            >> WAITING FOR USER INITIALIZATION...
+        </div>
     </div>
-    <button class="start-btn" onclick="initiateSystem()">Start Game</button>
-    <div class="loading-text animate-pulse">
-        >> WAITING FOR USER INPUT...
-    </div>
-</div>
-    <div class="scanline"></div>
+
     <div id="main-interface">
-        
-        <!-- HEADER -->
-        <header class="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="orbitron text-3xl font-bold text-cyan-400 tracking-widest border-l-4 border-cyan-400 pl-4 uppercase">
-                Adrian Benedict <span class="text-sm block text-slate-500 font-light tracking-normal">lvl. 21 Full-Stack Dev</span>
-            </div>
-            <nav class="flex gap-2">
-                <a href="#about" class="hud-border px-4 py-2 text-[10px] uppercase orbitron hover:bg-cyan-500/20 transition">Bio_Data</a>
-                <a href="#projects" class="hud-border px-4 py-2 text-[10px] uppercase orbitron hover:bg-cyan-500/20 transition">Missions</a>
-                <a href="#reports" class="hud-border px-4 py-2 text-[10px] uppercase orbitron hover:bg-cyan-500/20 transition">Quest_Log</a>
-            </nav>
-        </header>
-
-        <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-<aside class="lg:col-span-3 space-y-6">
-    <!-- Bio-Scan (About Me) -->
-    <div id="about" class="hud-border p-4">
-        <h4 class="orbitron text-[10px] text-slate-500 mb-4 uppercase tracking-tighter">Bio_Scan</h4>
-        <div class="relative w-32 h-32 mx-auto mb-4 border border-cyan-400/50 p-1 group">
-            <img src="pictures/profile.jpg" alt="Adrian Benedict Rivera" class="w-full h-full object-cover transition duration-500">
-            <div class="absolute inset-0 border border-cyan-400/20 animate-pulse pointer-events-none"></div>
-        </div>
-        <div class="text-[10px] space-y-2 text-slate-300 leading-relaxed">
-            <p><span class="text-cyan-400 font-bold uppercase">Identity:</span> Adrian Benedict D. Rivera</p>
-            <p><span class="text-cyan-400 font-bold uppercase">Class:</span> CS Student / Web Developer</p>
-            <p><span class="text-cyan-400 font-bold uppercase">Location:</span> Zamboanga City, PH</p>
-            <p><span class="text-cyan-400 font-bold uppercase">Affiliation:</span> WMSU</p>
-            <p class="border-t border-white/5 pt-2 italic text-slate-500 leading-tight">
-                "Detail-oriented CS student focused on bridging web development and database management."
-            </p>
-        </div>
-    </div>
-
-    <!-- Attribute Scores (Skills) -->
-    <div class="hud-border p-4">
-        <h4 class="orbitron text-[10px] text-slate-500 mb-4 uppercase tracking-tighter">Attribute_Scores</h4>
-        <div class="space-y-4">
-            <div>
-                <div class="flex justify-between text-[9px] mb-1 uppercase"><span>SQL / Database</span> <span></span></div>
-                <div class="stat-bar"><div class="stat-fill" style="width: 90%"></div></div>
-            </div>
-            <div>
-                <div class="flex justify-between text-[9px] mb-1 uppercase"><span>Web (HTML/CSS)</span> <span></span></div>
-                <div class="stat-bar"><div class="stat-fill" style="width: 85%"></div></div>
-            </div>
-            <div>
-                <div class="flex justify-between text-[9px] mb-1 uppercase"><span>Mobile / Kotlin</span> <span></span></div>
-                <div class="stat-bar"><div class="stat-fill" style="width: 70%"></div></div>
-            </div>
+        <div class="scanline"></div>
+        <div class="max-w-7xl mx-auto space-y-6">
             
-            <!-- Skill Tags from Resume -->
-            <div class="pt-2 flex flex-wrap gap-1">
-                <span class="text-[7px] bg-cyan-900/30 text-cyan-400 border border-cyan-400/20 px-2 py-0.5 rounded uppercase">Python</span>
-                <span class="text-[7px] bg-cyan-900/30 text-cyan-400 border border-cyan-400/20 px-2 py-0.5 rounded uppercase">Java</span>
-                <span class="text-[7px] bg-cyan-900/30 text-cyan-400 border border-cyan-400/20 px-2 py-0.5 rounded uppercase">Figma</span>
-                <span class="text-[7px] bg-cyan-900/30 text-cyan-400 border border-cyan-400/20 px-2 py-0.5 rounded uppercase">Git/GitHub</span>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Contact Module -->
-    <div class="hud-border p-4">
-        <h4 class="orbitron text-[10px] text-slate-500 mb-2 uppercase tracking-tighter">Comm_Link</h4>
-        <div class="text-[9px] space-y-1">
-            <a href="mailto:ae202401352@wmsu.edu.ph" class="block text-slate-400 hover:text-cyan-400 transition underline truncate">Email: ae202401352@wmsu.edu.ph</a>
-            <a href="https://github.com/AdrianRivera22" target="_blank" class="block text-slate-400 hover:text-cyan-400 transition underline">Source: AdrianRivera22</a>
-            <a href="https://www.linkedin.com/in/adrian-benedict-rivera-790184339" target="_blank" class="block text-slate-400 hover:text-cyan-400 transition underline">Network: [LinkedIn]: Adrian Benedict D. Rivera</a>
-        </div>
-    </div>
-</aside>
+            <header class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="orbitron text-3xl font-bold text-cyan-400 tracking-widest border-l-4 border-cyan-400 pl-4 uppercase">
+                    Adrian Benedict <span class="text-sm block text-slate-500 font-light tracking-normal">lvl. 21 Full-Stack Dev</span>
+                </div>
+                <nav class="flex gap-2">
+                    <a href="#about" class="hud-border px-4 py-2 text-[10px] uppercase orbitron hover:bg-cyan-500/20 transition">Bio_Data</a>
+                    <a href="#projects" class="hud-border px-4 py-2 text-[10px] uppercase orbitron hover:bg-cyan-500/20 transition">Missions</a>
+                    <a href="#reports" class="hud-border px-4 py-2 text-[10px] uppercase orbitron hover:bg-cyan-500/20 transition">Quest_Log</a>
+                </nav>
+            </header>
 
-            <!-- CENTER PANEL: MISSIONS -->
-            <section id="projects" class="lg:col-span-6 space-y-6">
-                <div class="hud-border p-6 min-h-[500px]">
-                    <h2 class="orbitron text-xl mb-6 flex items-center gap-2 text-white">
-                        <span class="w-2 h-2 bg-cyan-400 animate-pulse"></span> Active_Missions
-                    </h2>
-
-                    <div class="space-y-4">
-                        <!-- Main Quest: School Census -->
-                        <div class="bg-slate-800/40 border-l-2 border-cyan-500 p-5 hover:bg-cyan-500/10 transition">
-                            <h4 class="text-cyan-400 orbitron uppercase font-bold">School Census System [Main_Quest]</h4>
-                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-                                Modernized student data for DepEd Zamboanga City. Integrated **Leaflet.js** for GIS mapping and engineered an **Audit Log** for data persistence.
-                            </p>
-                            <div class="mt-4 flex gap-4 text-[9px] font-bold orbitron">
-                                <span class="text-cyan-400 underline cursor-pointer">VIEW_CASE_STUDY</span>
-                                <span class="text-slate-500 uppercase">Laravel / MySQL / Alpine.js</span>
-                            </div>
+            <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <aside class="lg:col-span-3 space-y-6">
+                    <div id="about" class="hud-border p-4">
+                        <h4 class="orbitron text-[10px] text-slate-500 mb-4 uppercase tracking-tighter">Bio_Scan</h4>
+                        <div class="relative w-32 h-32 mx-auto mb-4 border border-cyan-400/50 p-1 group">
+                            <img src="pictures/profile.jpg" alt="Adrian Rivera" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
                         </div>
-
-                        <!-- Side Quest: Reporting Engine -->
-                        <div class="bg-slate-800/40 border-l-2 border-blue-500 p-5 hover:bg-blue-500/10 transition">
-                            <h4 class="text-blue-400 orbitron uppercase font-bold">Institutional Reporting Engine</h4>
-                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
-                                Developed a formal Print Protocol to generate government-standard "Institutional Report Cards" with automated branding.
+                        <div class="text-[10px] space-y-2 text-slate-300 leading-relaxed">
+                            <p><span class="text-cyan-400 font-bold uppercase">Identity:</span> Adrian Benedict D. Rivera</p>
+                            <p><span class="text-cyan-400 font-bold uppercase">Class:</span> CS Student / Web Developer</p>
+                            <p><span class="text-cyan-400 font-bold uppercase">Affiliation:</span> WMSU / DepEd</p>
+                            <p class="border-t border-white/5 pt-2 italic text-slate-500 leading-tight">
+                                "Detail-oriented student focused on bridging web development and database management."
                             </p>
-                            <div class="mt-4 flex gap-4 text-[9px] font-bold orbitron text-blue-400 underline">
-                                <a href="https://github.com/adrianrivera22">GITHUB_REPO</a>
+                        </div>
+                    </div>
+
+                    <div class="hud-border p-4">
+                        <h4 class="orbitron text-[10px] text-slate-500 mb-4 uppercase tracking-tighter">Attribute_Scores</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-[9px] mb-1 uppercase"><span>SQL / Database</span> <span>90%</span></div>
+                                <div class="stat-bar"><div class="stat-fill" style="width: 90%"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-[9px] mb-1 uppercase"><span>Web (PHP/Laravel)</span> <span>85%</span></div>
+                                <div class="stat-bar"><div class="stat-fill" style="width: 85%"></div></div>
+                            </div>
+                            <div class="pt-2 flex flex-wrap gap-1">
+                                <span class="text-[7px] bg-cyan-900/30 text-cyan-400 border border-cyan-400/20 px-2 py-0.5 rounded uppercase">MySQL</span>
+                                <span class="text-[7px] bg-cyan-900/30 text-cyan-400 border border-cyan-400/20 px-2 py-0.5 rounded uppercase">Leaflet.js</span>
+                                <span class="text-[7px] bg-cyan-900/30 text-cyan-400 border border-cyan-400/20 px-2 py-0.5 rounded uppercase">Alpine.js</span>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
 
-<aside id="reports" class="lg:col-span-3 space-y-6">
+                    <div class="hud-border p-4">
+                        <h4 class="orbitron text-[10px] text-slate-500 mb-2 uppercase tracking-tighter">Comm_Link</h4>
+                        <div class="text-[9px] space-y-1">
+                            <a href="mailto:ae202401352@wmsu.edu.ph" class="block text-slate-400 hover:text-cyan-400 transition underline">Email: ae202401352@wmsu.edu.ph</a>
+                            <a href="https://github.com/AdrianRivera22" target="_blank" class="block text-slate-400 hover:text-cyan-400 transition underline">GitHub: AdrianRivera22</a>
+                        </div>
+                    </div>
+                </aside>
+
+                <section id="projects" class="lg:col-span-6 space-y-6">
+                    <div class="hud-border p-6 min-h-[500px]">
+                        <h2 class="orbitron text-xl mb-6 flex items-center gap-2 text-white">
+                            <span class="w-2 h-2 bg-cyan-400 animate-pulse"></span> Active_Missions
+                        </h2>
+
+                        <div class="space-y-4">
+                            <div class="bg-slate-800/40 border-l-2 border-cyan-500 p-5 hover:bg-cyan-500/10 transition">
+                                <h4 class="text-cyan-400 orbitron uppercase font-bold">School Census System [Main_Quest]</h4>
+                                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                                    Full-scale data platform for DepEd Zamboanga City. Integrated Leaflet.js for interactive mapping, established GPS Lock protocols, and engineered a specialized Audit System[cite: 2022, 2110, 2194].
+                                </p>
+                                <div class="mt-4 flex gap-4 text-[9px] font-bold orbitron">
+                                    <a href="https://github.com/ae202402094-ship-it/deped-planning.git" target="_blank" class="text-cyan-400 underline hover:text-white transition">ACCESS_REPOSITORY</a>
+                                    <span class="text-slate-500">PHP / LARAVEL / MYSQL</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-800/40 border-l-2 border-blue-500 p-5 hover:bg-blue-500/10 transition">
+                                <h4 class="text-blue-400 orbitron uppercase font-bold">Lost & Found Reporting System</h4>
+                                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                                    Centralized campus web application featuring an admin dashboard for real-time tracking of item statuses and automated email reporting[cite: 3328, 3331].
+                                </p>
+                                <div class="mt-4 flex gap-4 text-[9px] font-bold orbitron">
+                                    <a href="https://github.com/AdrianRivera22/Lost-Found.git" target="_blank" class="text-blue-400 underline hover:text-white transition">GITHUB_REPO</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <aside id="reports" class="lg:col-span-3 space-y-6">
     <div class="hud-border p-4 h-full">
         <h4 class="orbitron text-[10px] text-slate-500 mb-6 uppercase tracking-widest">Quest_Log // DepEd</h4>
         <div class="space-y-6 relative ml-2">
@@ -263,31 +228,27 @@
         </div>
     </div>
 </aside>
-        </main>
+            </main>
 
-        <!-- FOOTER -->
-        <footer class="hud-border p-4 flex justify-between items-center text-[9px] text-slate-500 font-fira uppercase tracking-widest">
-            <div>&copy; Adrian Benedict D. Rivera // 2026</div>
-            <div class="flex gap-4">
-                <span>COORD: 6.9214 N, 122.0790 E</span>
-                <span class="text-cyan-400 animate-pulse">System_Status: Optimal</span>
-            </div>
-        </footer>
+            <footer class="hud-border p-4 flex justify-between items-center text-[9px] text-slate-500 font-fira uppercase tracking-widest">
+                <div>&copy; Adrian Benedict D. Rivera // 2026</div>
+                <div class="flex gap-4">
+                    <span>COORD: 6.9214 N, 122.0790 E</span>
+                    <span class="text-cyan-400 animate-pulse">System_Status: Optimal</span>
+                </div>
+            </footer>
+        </div>
     </div>
+
     <script>
-    function initiateSystem() {
-        const overlay = document.getElementById('startup-overlay');
-        const mainUI = document.getElementById('main-interface');
-        
-        // Play a sound effect if you have one, or just transition
-        overlay.style.opacity = '0';
-        overlay.style.visibility = 'hidden';
-        
-        // Fade in the main interface
-        mainUI.style.opacity = '1';
-        
-        console.log("ADRIAN_BENEDICT // SYSTEM_INITIATED");
-    }
-</script>
+        function initiateSystem() {
+            const overlay = document.getElementById('startup-overlay');
+            const mainUI = document.getElementById('main-interface');
+            overlay.style.opacity = '0';
+            overlay.style.visibility = 'hidden';
+            mainUI.style.opacity = '1';
+            console.log("ADRIAN_BENEDICT // SYSTEM_INITIATED");
+        }
+    </script>
 </body>
 </html>
